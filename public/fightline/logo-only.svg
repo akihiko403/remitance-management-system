@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 607.06 351.61">
+  <defs>
+    <style>
+      .logo-primary {
+        fill: var(--logo-primary, #082543);
+      }
+      .logo-accent {
+        fill: var(--logo-accent, #e62825);
+      }
+    </style>
+  </defs>
+  <polygon class="logo-primary" points="535.32 117.97 485.38 200.11 215.15 200.11 242.89 117.97 535.32 117.97"/>
+  <polygon class="logo-accent" points="607.06 0 561.34 75.19 492.89 75.19 538.61 0 607.06 0"/>
+  <polygon class="logo-primary" points="514.19 0 468.44 75.19 220.51 75.19 206.07 117.97 178.33 200.11 166.21 235.93 132.22 336.6 46.25 275.44 59.62 235.93 71.7 200.11 99.44 117.97 113.88 75.19 0 75.19 45.75 0 514.19 0"/>
+  <polygon class="logo-primary" points="445.63 235.93 378.36 263.56 345.76 276.95 164 351.61 203.03 235.93 445.63 235.93"/>
+</svg>
