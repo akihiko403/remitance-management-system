@@ -1,70 +1,248 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Remittance Management System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img alt="Laravel" src="https://img.shields.io/badge/Laravel-12.x-F9322C?style=for-the-badge&logo=laravel&logoColor=white">
+  <img alt="PHP" src="https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white">
+  <img alt="Inertia" src="https://img.shields.io/badge/Inertia.js-2.0-9553E9?style=for-the-badge">
+  <img alt="React" src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react&logoColor=0B1220">
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/TailwindCSS-UI-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 </p>
 
-## About Laravel
+<p align="center">
+  Teller remittance encoding, shortage tracking, deductions, and reporting in one focused internal operations system.
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The **Remittance Management System** is a Laravel + Inertia application built to manage teller assignments, encode remittances per event, detect shortages automatically, post deductions, and monitor remaining balances across previous events.
 
-## Learning Laravel
+It is designed for a workflow where:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. a masterlist of people is maintained,
+2. an event is created and marked active,
+3. tellers are assigned through attendance,
+4. remittances are encoded per teller,
+5. shortages are recorded automatically,
+6. deductions are posted until balances are fully settled.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Visual Workflow
 
-## Laravel Sponsors
+```mermaid
+flowchart LR
+    A[Masterlist] --> B[Events]
+    B --> C[Attendance and Teller Assignment]
+    C --> D[Remittance Encoding]
+    D --> E{Shortage?}
+    E -- Yes --> F[Shortage Ledger]
+    E -- No --> G[Cleared Remittance]
+    F --> H[Deduction Payments]
+    H --> I[Outstanding and Zero Balance Reports]
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Module Map
 
-### Premium Partners
+```mermaid
+flowchart TD
+    A[Dashboard]
+    B[People / Masterlist]
+    C[Events]
+    D[Attendance]
+    E[Remittances]
+    F[Deductions]
+    G[Reports]
+    H[Settings and Roles]
+    I[Audit Logs]
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    A --> E
+    B --> D
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    H --> A
+    H --> B
+    H --> C
+    I --> H
+```
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Core Features
 
-## Code of Conduct
+- **Masterlist management**
+  - Maintain people records with code, complete name, and teller-ready profile data.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Event management**
+  - Create events, activate the current working event, and manage event context for remittance operations.
 
-## Security Vulnerabilities
+- **Attendance and teller assignment**
+  - Assign people to an event and designate their teller number or position before encoding.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Per-person remittance encoding**
+  - Encode remittance values for each assigned teller.
+  - Compare system cash on hand and teller cash on hand.
+  - Detect shortages automatically based on entered values.
+
+- **Automatic shortage ledger**
+  - Shortages are generated from remittance encoding and linked back to the event and teller assignment.
+
+- **Consolidated deductions**
+  - Post partial or full payments against a person's open shortages.
+  - Allocate payments across older shortage balances automatically.
+
+- **Previous-balance visibility**
+  - Remittance encoding surfaces previous outstanding shortage amounts so users can see if a teller still has remaining short from earlier events.
+
+- **Reports and exports**
+  - Event shortages
+  - Outstanding balances
+  - Zero balances
+  - Person ledger
+  - Deduction history
+  - Export-ready report routes
+
+- **Role and permission controls**
+  - User role management through settings using `spatie/laravel-permission`.
+
+- **Audit visibility**
+  - Audit log access for tracking important system actions.
+
+---
+
+## Screens Overview
+
+| Screen | Purpose |
+| --- | --- |
+| `Dashboard` | High-level metrics for active operations and balances |
+| `People` | Masterlist maintenance |
+| `Events` | Event creation, activation, and event management |
+| `Attendance` | Assign tellers for the active event |
+| `Remittances` | Encode teller remittance and detect shortages |
+| `Deductions` | Post payments against shortage balances |
+| `Reports` | Review balances, shortages, and ledger history |
+| `Settings` | Update system configuration and user roles |
+| `Audit Logs` | Review tracked user/system actions |
+
+---
+
+## Tech Stack
+
+- **Backend:** Laravel 12
+- **Frontend:** React + Inertia.js
+- **Styling:** Tailwind CSS
+- **Routing:** Laravel web routes with authenticated middleware
+- **Permissions:** `spatie/laravel-permission`
+- **Audit logging:** `spatie/laravel-activitylog`
+- **PDF/export support:** `barryvdh/laravel-dompdf`
+
+---
+
+## Local Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/akihiko403/remitance-management-system.git
+cd remitance-management-system
+```
+
+### 2. Install dependencies
+
+```bash
+composer install
+npm install
+```
+
+### 3. Prepare environment
+
+```bash
+copy .env.example .env
+php artisan key:generate
+```
+
+Update your database connection in `.env`.
+
+### 4. Run migrations and seeders
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+### 5. Start the app
+
+```bash
+composer run dev
+```
+
+This starts:
+
+- Laravel development server
+- queue listener
+- log stream
+- Vite frontend build
+
+---
+
+## Default Seed Data
+
+The project includes starter data for faster local setup, including:
+
+- system roles and permissions
+- settings
+- demo users
+- masterlist seed entries
+
+If you want to reseed only the masterlist:
+
+```bash
+php artisan db:seed --class=MasterlistSeeder
+```
+
+---
+
+## Main Routes
+
+| Route | Description |
+| --- | --- |
+| `/dashboard` | Dashboard |
+| `/people` | Masterlist / people |
+| `/events` | Event management |
+| `/events/{event}/attendance` | Attendance and teller assignment |
+| `/remittances` | Active event remittance encoding |
+| `/deductions` | Shortage payment posting |
+| `/reports/event-shortages` | Event shortage report |
+| `/reports/outstanding-balances` | Outstanding balances report |
+| `/reports/zero-balances` | Fully settled balances report |
+| `/reports/person-ledger` | Person ledger report |
+| `/reports/deduction-history` | Deduction history report |
+| `/settings` | System settings and user role management |
+| `/audit-logs` | Audit log viewer |
+
+---
+
+## Business Flow
+
+```text
+Masterlist -> Event Setup -> Attendance / Teller Assignment -> Remittance Encoding
+-> Auto Shortage Creation -> Deduction Payments -> Reports / Audit Review
+```
+
+---
+
+## Notes
+
+- Remittance encoding is tied to the **active event**.
+- Shortages are computed from remittance and cash-on-hand values.
+- Deductions can be posted without leaving remittance flow when a teller has previous outstanding balance.
+- Reports are designed to support operational review and settlement tracking.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# remitance-management-system
->>>>>>> 46e972f18c106bdae29415f4f18e366be2019482
+This project is provided for internal or organizational use. Update this section if you want to publish it under a specific open-source license.
